@@ -14,14 +14,13 @@
 body {
   font-family: "Georgia";
   background-color: var(--other-colour);
-  background-image: url("./bg.png");
   background-size: cover;
   background-position: center;
 
   scrollbar-color: var(--main-colour) var(--other-colour);
 }
 
-#twodays-app {
+#cozylobby-app {
   margin: auto;
   max-width: 30em;
   padding: 8px;

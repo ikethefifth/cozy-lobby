@@ -20,14 +20,14 @@ import {
   Document,
 } from "earthstar";
 import "react-earthstar/styles/layout.css";
-import TwoDays from "./TwoDays";
+import CozyLobby from "./CozyLobby";
 
 import { useLocalStorage, writeStorage } from "@rehooks/local-storage";
 
-const LS_AUTHOR_KEY = "earthstar-twodays-currentAuthor";
-const LS_PUBS_KEY = "earthstar-twodays-pubs";
-const LS_STORAGES_DOCS_KEY = "earthstar-twodays-storages-docs";
-const LS_CURRENT_WORKSPACE_KEY = "earthstar-twodays-current-workspace";
+const LS_AUTHOR_KEY = "earthstar-cozylobby-currentAuthor";
+const LS_PUBS_KEY = "earthstar-cozylobby-pubs";
+const LS_STORAGES_DOCS_KEY = "earthstar-cozylobby-storages-docs";
+const LS_CURRENT_WORKSPACE_KEY = "earthstar-cozylobby-current-workspace";
 
 function App() {
   const [workspacesDocsInStorage] = useLocalStorage<
@@ -75,7 +75,7 @@ function App() {
         <AuthorTab />
         <DisplayName />
       </Earthbar>
-      <TwoDays />
+      <CozyLobby />
       <Persistor />
     </EarthstarPeer>
   );
