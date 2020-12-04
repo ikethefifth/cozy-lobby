@@ -1,8 +1,9 @@
 /* App styling */
 
 :root {
-  --main-colour: #664249;
-  --other-colour: #f7f0ed;
+  --main-colour: #2a0061;
+  --other-colour: #ffe6f5;
+  --tertiary-color: #3348b0;
   --char-a-colour: #770000;
   --char-b-colour: #c87425;
   --char-c-colour: #138a14;
@@ -22,14 +23,13 @@ body {
 
 #cozylobby-app {
   margin: auto;
-  max-width: 30em;
   padding: 8px;
 }
 
 header {
   margin: 1.5em 0;
   display: flex;
-  align-items: center;
+  align-items: right;
 }
 
 header img {
@@ -49,6 +49,19 @@ header aside {
   display: flex;
   flex-direction: column;
   overflow: hidden;
+  max-width: 50em;
+  float: right;
+}
+
+#choose-your-path {
+  background-color: var(--other-colour);
+  border: 3px solid var(--main-colour);
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  max-width: 30em;
+  float: left;
 }
 
 #preamble {
@@ -180,7 +193,7 @@ header aside {
   font-family: Georgia;
   font-size: 14px;
   padding: 6px;
-  background: var(--char-b-colour);
+  background: var(--tertiary-color);
   color: var(--other-colour);
   font-weight: bold;
   border-radius: 10px;

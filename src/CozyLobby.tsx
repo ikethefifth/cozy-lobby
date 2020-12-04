@@ -23,6 +23,9 @@ export default function CozyLobby() {
               </p>
             </aside>
           </header>
+	  <section id={"choose-your-path"}>
+	    <PathList workspace={currentWorkspace} />
+	  </section>
           <section id={"panel"}>
             <MessageList workspace={currentWorkspace} />
             <MessagePoster workspace={currentWorkspace} />
@@ -46,13 +49,17 @@ export default function CozyLobby() {
   );
 }
 
-function PastMessages({ workspace }: { workspace: string }) {
-
+function PathList({ workspace }: {workspace: string }) {
   return (
-    <div id={"preamble"}>
-      <em>{"This is where documents will appear. If you don't see any, you might need to connect to a Pub, or turn on syncing."}</em>
-      <hr />
-    </div>
+    <>
+      <div id={"preamble"}>
+        <em>{"This is a placeholder for a future function."}</em>
+        <hr />
+      </div>
+      <div id={"author-messages"}>
+        <p>Stuff will live here one day!</p>
+      </div>
+    </>
   );
 }
 
@@ -78,7 +85,10 @@ function MessageList({ workspace }: { workspace: string }) {
 
   return (
     <>
-      <PastMessages workspace={workspace} />
+      <div id={"preamble"}>
+        <em>{"This is where documents will appear. If you don't see any, you might need to connect to a Pub, or turn on syncing."}</em>
+        <hr />
+      </div>
       <div ref={messagesRef} id={"author-messages"}>
         {docs.map((doc) => (
           <Message key={doc.path} workspace={workspace} doc={doc} />
