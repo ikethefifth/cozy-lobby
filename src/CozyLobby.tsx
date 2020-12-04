@@ -135,12 +135,21 @@ function ActionisedMessage({
       )}
     </span>
   );
-
+  
+  var date = new Date(messageDoc.timestamp / 1000);
+  var year = date.getFullYear();
+  var month = date.getMonth() + 1;
+  var day = date.getDate();
+  var hour = "0" + date.getHours();
+  var minute = "0" + date.getMinutes();
+  var date_str = day.toString() + "/" + month.toString() + "/" + year.toString() + " " + hour.substr(-2) + ":" + minute.substr(-2);
   const returnThis = (
     <div id={"message"}>
       {name}
       {": "}
-      {messageDoc.content}
+      <span title={date_str}>
+      	{messageDoc.content}
+      </span>
     </div>
   );
 
