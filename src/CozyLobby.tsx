@@ -74,20 +74,20 @@ function MessageList({ workspace }: { workspace: string }) {
 
   const docs = useDocuments(workspace, {
     pathPrefix: "/lobby/",
+    contentIsEmpty: false,
   });
 
-  const lastDoc = docs[docs.length - 1];
+  // 'Good enough' sorting
+  docs.sort((aDoc, bDoc) => (aDoc.timestamp < bDoc.timestamp ? -1 : 1));
 
-  const lastDocId = lastDoc?.contentHash ?? "none";
+  const lastDoc = docs[docs.length - 1];
+  const lastDocId = lastDoc?.path ?? "none";
 
   React.useEffect(() => {
     if (messagesRef.current) {
       messagesRef.current.scrollTop = messagesRef.current.scrollHeight;
     }
   }, [lastDocId]);
-
-  // 'Good enough' sorting
-  docs.sort((aDoc, bDoc) => (aDoc.timestamp < bDoc.timestamp ? -1 : 1));
 
   return (
     <>
@@ -172,9 +172,9 @@ function MessagePoster({ workspace }: { workspace: string }) {
       id={"posting-input"}
       onSubmit={(e) => {
         e.preventDefault();
-
+	if (messageValue.trim().length === 0) { return; }
         setDoc(
-          messageValue
+          messageValue.trim()
         );
 
         setMessageValue("");
