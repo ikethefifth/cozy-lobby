@@ -5,6 +5,7 @@ import {
   useCurrentWorkspace,
   useDocument,
   useDocuments,
+  usePaths,
 } from "react-earthstar";
 import { Document, detChoice } from "earthstar";
 import "./cozylobby.css";
@@ -50,14 +51,19 @@ export default function CozyLobby() {
 }
 
 function PathList({ workspace }: {workspace: string }) {
+  let paths = usePaths(workspace, {contentIsEmpty: false});
+  paths = paths.map(function(path) {
+	  return path.slice(0,path.indexOf("/", 1)+1)
+	})
+  paths = Array.from(new Set(paths));
   return (
     <>
       <div id={"preamble"}>
-        <em>{"This is a placeholder for a future function."}</em>
+        <em>{"Here you can see some paths that this workspace uses! One day you'll be able to switch between them."}</em>
         <hr />
       </div>
-      <div id={"author-messages"}>
-        <p>Stuff will live here one day!</p>
+      <div id={"paths"}>
+        {paths.map(path => <div id={"path"}>{path}</div>)}
       </div>
     </>
   );

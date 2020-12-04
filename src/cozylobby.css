@@ -29,7 +29,6 @@ body {
 header {
   margin: 1.5em 0;
   display: flex;
-  align-items: right;
 }
 
 header img {
@@ -49,7 +48,7 @@ header aside {
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  max-width: 50em;
+  max-width: 70%;
   float: right;
 }
 
@@ -60,8 +59,12 @@ header aside {
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  max-width: 30em;
+  max-width: 25%;
   float: left;
+}
+
+#path {
+  padding: 4px 0 4px 8px;
 }
 
 #preamble {
@@ -85,6 +88,8 @@ header aside {
   padding: 8px;
   background: var(--other-colour);
   resize: vertical;
+  white-space: break-spaces;
+  overflow-wrap: break-word;
 }
 
 #author-action,
