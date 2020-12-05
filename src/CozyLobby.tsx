@@ -10,9 +10,14 @@ import {
 import { Document, detChoice } from "earthstar";
 import "./cozylobby.css";
 
-var currPath = "/lobby/";
+interface IData {
+  setPath: Function;
+  workspace: string;
+}
+
 export default function CozyLobby() {
   const [currentWorkspace] = useCurrentWorkspace();
+  const [currPath, setPath] = React.useState("/lobby/");
 
   return (
     <div id={"cozylobby-app"}>
@@ -26,11 +31,11 @@ export default function CozyLobby() {
             </aside>
           </header>
 	  <section id={"choose-your-path"}>
-	    <PathList workspace={currentWorkspace} />
+	    <PathList setPath={setPath} workspace={currentWorkspace} />
 	  </section>
           <section id={"panel"}>
-            <MessageList workspace={currentWorkspace} />
-            <MessagePoster workspace={currentWorkspace} />
+            <MessageList path={currPath} workspace={currentWorkspace} />
+            <MessagePoster workspace={currentWorkspace} mp_path={currPath} />
           </section>
         </>
       ) : (
@@ -51,7 +56,7 @@ export default function CozyLobby() {
   );
 }
 
-function PathList({ workspace }: {workspace: string }) {
+function PathList({setPath, workspace}: IData) {
   let paths = usePaths({contentIsEmpty: false});
   paths = paths.map(function(path) {
 	  return path.slice(0,path.indexOf("/", 1)+1)
@@ -60,12 +65,12 @@ function PathList({ workspace }: {workspace: string }) {
   return (
     <>
       <div id={"preamble"}>
-        <em>{"Here you can see some paths that this workspace uses! Click on them to change where you view and send documents. Be careful though, some folders might not be set up to receive raw messages. Make sure you know what you're doing! And be patient, it'll take a bit to grab new documents when you switch. Don't refresh, just wait 30-60 seconds, or longer if it's your first time checking this path after a refresh."}</em>
+        <em>{"Here you can see some paths that this workspace uses! Click on them to change where you view and send documents. Be careful though, some folders might not be set up to receive raw messages. Make sure you know what you're doing!"}</em>
         <hr />
       </div>
       <div id={"paths"}>
         {paths.map(path => <button className={"path"} onClick={(e) => {
-	  currPath = path;
+	  setPath(path);
 	  var pathEls = document.getElementsByClassName("path");
 	  for (var i = 0; i < pathEls.length; i++) {
 	    pathEls[i].className = pathEls[i].className.replace(" active", "");
@@ -77,11 +82,11 @@ function PathList({ workspace }: {workspace: string }) {
   );
 }
 
-function MessageList({ workspace }: { workspace: string }) {
+function MessageList({path, workspace}: {path: string, workspace: string }) {
   const messagesRef = React.useRef<HTMLDivElement | null>(null);
 
   const docs = useDocuments({
-    pathPrefix: currPath,
+    pathPrefix: path,
     contentIsEmpty: false,
   });
 
@@ -95,7 +100,7 @@ function MessageList({ workspace }: { workspace: string }) {
     if (messagesRef.current) {
       messagesRef.current.scrollTop = messagesRef.current.scrollHeight;
     }
-  }, [lastDocId, currPath]);
+  }, [lastDocId, path]);
 
   return (
     <>
@@ -163,7 +168,7 @@ function ActionisedMessage({
   return returnThis;
 }
 
-function Message({ workspace, doc }: { workspace: string; doc: Document }) {
+function Message({ workspace, doc}: { workspace: string; doc: Document}) {
   return (
     <div>
       <ActionisedMessage workspace={workspace} messageDoc={doc} />
@@ -171,17 +176,14 @@ function Message({ workspace, doc }: { workspace: string; doc: Document }) {
   );
 }
 
-function MessagePoster({ workspace }: { workspace: string }) {
+function MessagePoster({ workspace, mp_path }: { workspace: string; mp_path: string}) {
   const [messageValue, setMessageValue] = React.useState("");
   const [currentAuthor] = useCurrentAuthor();
 
-  const path = currPath + `~${currentAuthor?.address}/${Date.now()}.txt`;
+  const path = mp_path + `~${currentAuthor?.address}/${Date.now()}.txt`;
 
   const [, setDoc] = useDocument(workspace, path);
-  var placehold = "Send a message to " + currPath;
-  React.useEffect(() => {
-    placehold = "Send a message to " + currPath;
-  }, [currPath]);
+  var placehold = "Send a message to " + mp_path;
   if (!currentAuthor) {
     return <div>{"Sign in to send a message."}</div>;
   }
