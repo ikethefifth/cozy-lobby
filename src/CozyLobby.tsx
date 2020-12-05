@@ -65,7 +65,7 @@ function PathList({setPath, workspace}: IData) {
   return (
     <>
       <div id={"preamble"}>
-        <em>{"Here you can see some paths that this workspace uses! Click on them to change where you view and send documents. Be careful though, some folders might not be set up to receive raw messages. Make sure you know what you're doing!"}</em>
+        <em>{"Here you can see some paths that this workspace uses! Click on them to change where you view and send documents. Be careful though, some folders might not be set up to receive raw messages. When in doubt, send to /lobby/."}</em>
         <hr />
       </div>
       <div id={"paths"}>
