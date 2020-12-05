@@ -79,7 +79,7 @@ header aside {
 
 #preamble hr {
   border: 1px solid var(--main-colour);
-  margin: 8px 0 2px 0;
+  margin: 8px 0 0 0;
 }
 
 #author-messages {
@@ -121,6 +121,27 @@ header aside {
   color: var(--char-f-colour);
 }
 
+#paths button {
+  flex: 0 1 auto;
+  margin: 0;
+  background: var(--main-colour);
+  border: none;
+  color: white;
+  font-weight: bold;
+  font-size: 1em;
+  font-family: "Georgia";
+  padding: 8px;
+  cursor: pointer;
+}
+
+#paths button:hover {
+  background-color: var(--tertiary-color);
+}
+
+#paths button.active {
+  background-color: #4040b0;
+}
+
 #posting-input {
   display: flex;
 }
@@ -144,6 +165,11 @@ header aside {
   font-size: 1em;
   font-family: "Georgia";
   padding: 8px;
+  cursor: pointer;
+}
+
+#posting-input button:hover {
+  background-color: var(--tertiary-color);
 }
 
 /* Earthbar styling */

@@ -10,6 +10,7 @@ import {
 import { Document, detChoice } from "earthstar";
 import "./cozylobby.css";
 
+var currPath = "/lobby/";
 export default function CozyLobby() {
   const [currentWorkspace] = useCurrentWorkspace();
 
@@ -51,7 +52,7 @@ export default function CozyLobby() {
 }
 
 function PathList({ workspace }: {workspace: string }) {
-  let paths = usePaths(workspace, {contentIsEmpty: false});
+  let paths = usePaths({contentIsEmpty: false});
   paths = paths.map(function(path) {
 	  return path.slice(0,path.indexOf("/", 1)+1)
 	})
@@ -59,11 +60,18 @@ function PathList({ workspace }: {workspace: string }) {
   return (
     <>
       <div id={"preamble"}>
-        <em>{"Here you can see some paths that this workspace uses! One day you'll be able to switch between them."}</em>
+        <em>{"Here you can see some paths that this workspace uses! Click on them to change where you view and send documents. Be careful though, some folders might not be set up to receive raw messages. Make sure you know what you're doing! And be patient, it'll take a bit to grab new documents when you switch. Don't refresh, just wait 30-60 seconds, or longer if it's your first time checking this path after a refresh."}</em>
         <hr />
       </div>
       <div id={"paths"}>
-        {paths.map(path => <div id={"path"}>{path}</div>)}
+        {paths.map(path => <button className={"path"} onClick={(e) => {
+	  currPath = path;
+	  var pathEls = document.getElementsByClassName("path");
+	  for (var i = 0; i < pathEls.length; i++) {
+	    pathEls[i].className = pathEls[i].className.replace(" active", "");
+	  }
+	  e.currentTarget.className += " active";
+        }}>{path}</button>)}
       </div>
     </>
   );
@@ -72,8 +80,8 @@ function PathList({ workspace }: {workspace: string }) {
 function MessageList({ workspace }: { workspace: string }) {
   const messagesRef = React.useRef<HTMLDivElement | null>(null);
 
-  const docs = useDocuments(workspace, {
-    pathPrefix: "/lobby/",
+  const docs = useDocuments({
+    pathPrefix: currPath,
     contentIsEmpty: false,
   });
 
@@ -87,7 +95,7 @@ function MessageList({ workspace }: { workspace: string }) {
     if (messagesRef.current) {
       messagesRef.current.scrollTop = messagesRef.current.scrollHeight;
     }
-  }, [lastDocId]);
+  }, [lastDocId, currPath]);
 
   return (
     <>
@@ -122,7 +130,6 @@ function ActionisedMessage({
   ]);
 
   const [displayNameDoc] = useDocument(
-    workspace,
     `/about/~${messageDoc.author}/displayName.txt`
   );
 
@@ -168,14 +175,17 @@ function MessagePoster({ workspace }: { workspace: string }) {
   const [messageValue, setMessageValue] = React.useState("");
   const [currentAuthor] = useCurrentAuthor();
 
-  const path = `/lobby/~${currentAuthor?.address}/${Date.now()}.txt`;
+  const path = currPath + `~${currentAuthor?.address}/${Date.now()}.txt`;
 
   const [, setDoc] = useDocument(workspace, path);
-
+  var placehold = "Send a message to " + currPath;
+  React.useEffect(() => {
+    placehold = "Send a message to " + currPath;
+  }, [currPath]);
   if (!currentAuthor) {
     return <div>{"Sign in to send a message."}</div>;
   }
-
+  
   return (
     <form
       id={"posting-input"}
@@ -190,9 +200,8 @@ function MessagePoster({ workspace }: { workspace: string }) {
       }}
     >
       <input
-        placeholder={
-          "Send a message!"
-        }
+        placeholder= {placehold}
+        
         value={messageValue}
         onChange={(e) => setMessageValue(e.target.value)}
       />
