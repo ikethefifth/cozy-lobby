@@ -62,10 +62,15 @@ function PathList({setPath, workspace}: IData) {
 	  return path.slice(0,path.indexOf("/", 1)+1)
 	})
   paths = Array.from(new Set(paths));
+  for (var i=0;i<paths.length;i++) {
+    if (paths[i].substring(0,7) !== "/lobby/" && paths[i].substring(0,6) !== "/chat/") {
+      paths.splice(i,1);
+    }
+  }
   return (
     <>
       <div id={"preamble"}>
-        <em>{"Here you can see some paths that this workspace uses! Click on them to change where you view and send documents. Be careful though, some folders might not be set up to receive raw messages. When in doubt, send to /lobby/."}</em>
+        <em>{"Here you can see some paths that this workspace uses for chatting! Click on them to change where you view and send documents."}</em>
         <hr />
       </div>
       <div id={"paths"}>
