@@ -235,7 +235,7 @@ function MessagePoster({ workspace, mp_path }: { workspace: string; mp_path: str
       onSubmit={(e) => {
         e.preventDefault();
 	if (messageValue.trim().length === 0) { return; }
-	let result = setDoc(messageValue.trim());
+	setDoc(messageValue.trim());
 
         setMessageValue("");
       }}
