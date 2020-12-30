@@ -63,7 +63,7 @@ function PathList({setPath, workspace}: IData) {
 	})
   paths = Array.from(new Set(paths));
   for (var i=0;i<paths.length;i++) {
-    if (paths[i].substring(0,7) !== "/lobby/" && paths[i].substring(0,6) !== "/chat/") {
+    if (paths[i].substring(0,6) !== "/lobby" && paths[i].substring(0,5) !== "/chat") {
       paths.splice(i,1);
     }
   }
