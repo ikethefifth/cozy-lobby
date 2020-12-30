@@ -30,9 +30,14 @@ export default function CozyLobby() {
               </p>
             </aside>
           </header>
-	  <section id={"choose-your-path"}>
-	    <PathList setPath={setPath} workspace={currentWorkspace} />
-	  </section>
+          <div id={"left-panel"}>
+	    <section id={"choose-your-path"}>
+	      <PathList setPath={setPath} workspace={currentWorkspace} />
+	    </section>
+	    <section id={"new-path"}>
+	      <NewPath setPath={setPath} workspace={currentWorkspace}/>
+	    </section>
+	  </div>
           <section id={"panel"}>
             <MessageList path={currPath} workspace={currentWorkspace} />
             <MessagePoster workspace={currentWorkspace} mp_path={currPath} />
@@ -59,12 +64,15 @@ export default function CozyLobby() {
 function PathList({setPath, workspace}: IData) {
   let paths = usePaths({contentIsEmpty: false});
   paths = paths.map(function(path) {
-	  return path.slice(0,path.indexOf("/", 1)+1)
+  	  path = path.slice(0,path.indexOf("@"));
+	  path = path.slice(0,path.indexOf("~"));
+	  return path.slice(0,path.lastIndexOf("/")+1);
 	})
   paths = Array.from(new Set(paths));
   for (var i=0;i<paths.length;i++) {
     if (paths[i].substring(0,6) !== "/lobby" && paths[i].substring(0,5) !== "/chat") {
       paths.splice(i,1);
+      i--;
     }
   }
   return (
@@ -84,6 +92,34 @@ function PathList({setPath, workspace}: IData) {
         }}>{path}</button>)}
       </div>
     </>
+  );
+}
+
+function NewPath({setPath, workspace}: IData) {
+  const [pathValue, setPathValue] = React.useState("");
+  const [currentAuthor] = useCurrentAuthor();
+  if (!currentAuthor) {
+    return <div>{"Sign in to make a new path."}</div>;
+  }
+  var placehold="name your new path, then send a message to create it";
+  return (
+    <form
+      id={"new-path-input"}
+      onSubmit={(e) => {
+        e.preventDefault();
+	if (pathValue.trim().length === 0) { return; }
+	const path = `/chat-cl-v1/` + pathValue + `/`;
+	setPath(path);
+        setPathValue("");
+      }}
+    >
+      <input
+        placeholder= {placehold}
+        value={pathValue}
+        onChange={(e) => setPathValue(e.target.value)}
+      />
+      <button type={"submit"}>{"Create"}</button>
+    </form>
   );
 }
 
@@ -187,7 +223,7 @@ function MessagePoster({ workspace, mp_path }: { workspace: string; mp_path: str
 
   const path = mp_path + `~${currentAuthor?.address}/${Date.now()}.txt`;
 
-  const [, setDoc] = useDocument(workspace, path);
+  const [, setDoc] = useDocument(path, workspace);
   var placehold = "Send a message to " + mp_path;
   if (!currentAuthor) {
     return <div>{"Sign in to send a message."}</div>;
@@ -199,9 +235,7 @@ function MessagePoster({ workspace, mp_path }: { workspace: string; mp_path: str
       onSubmit={(e) => {
         e.preventDefault();
 	if (messageValue.trim().length === 0) { return; }
-        setDoc(
-          messageValue.trim()
-        );
+	let result = setDoc(messageValue.trim());
 
         setMessageValue("");
       }}

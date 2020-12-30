@@ -52,14 +52,26 @@ header aside {
   float: right;
 }
 
-#choose-your-path {
+#left-panel {
   background-color: var(--other-colour);
   border: 3px solid var(--main-colour);
   border-radius: 10px;
   display: flex;
   flex-direction: column;
-  overflow: hidden;
   max-width: 25%;
+  float: left;
+  position: relative;
+}
+
+#new-path {
+  display: flex;
+  flex-direction: column;
+  float: left;
+}
+
+#choose-your-path {
+  display: flex;
+  flex-direction: column;
   float: left;
 }
 
@@ -140,6 +152,36 @@ header aside {
 
 #paths button.active {
   background-color: #4040b0;
+}
+
+#new-path-input {
+  display: flex;
+}
+
+#new-path-input input {
+  flex: 1 0 auto;
+  margin: 0;
+  border: none;
+  border-top: 3px solid var(--main-colour);
+  background-color: var(--other-colour);
+  padding: 8px;
+}
+
+#new-path-input button {
+  flex: 0 1 auto;
+  margin: 0;
+  background: var(--main-colour);
+  border: none;
+  color: white;
+  font-weight: bold;
+  font-size: 1em;
+  font-family: "Georgia";
+  padding: 8px;
+  cursor: pointer;
+}
+
+#new-path-input button:hover {
+  background-color: var(--tertiary-color);
 }
 
 #posting-input {
