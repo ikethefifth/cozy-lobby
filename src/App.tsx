@@ -1,5 +1,4 @@
 import React from "react";
-import "./App.css";
 import {
   EarthstarPeer,
   Earthbar,
@@ -20,6 +19,8 @@ import {
   Document,
 } from "earthstar";
 import "react-earthstar/styles/layout.css";
+import "react-earthstar/styles/junior.css";  // this adds the yellow-green style with different fonts and details
+import "./App.css";
 import CozyLobby from "./CozyLobby";
 
 import { useLocalStorage, writeStorage } from "@rehooks/local-storage";
