@@ -11,7 +11,7 @@
     "@types/node": "^14.14.20",
     "@types/react": "^17.0.0",
     "@types/react-dom": "^17.0.0",
-    "earthstar": "^5.7.4",
+    "earthstar": "^6.8.5",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-earthstar": "^1.0.0-preview.17",
